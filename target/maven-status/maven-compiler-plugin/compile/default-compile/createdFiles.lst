@@ -1,0 +1,17 @@
+entity\Carrera.class
+repository\CarreraRepository.class
+repository\CarreraRepositoryImp.class
+util\JpaUtil.class
+entity\Estudiante.class
+repository\Estudiante_CarreraRepository.class
+main\MainApp.class
+repository\EstudianteRepositoryImp.class
+repository\EstudianteRepository.class
+entity\Estudiante_Carrera.class
+module-info.class
+dto\EstudianteDTO.class
+repository\BaseRepository.class
+dto\Estudiante_CarreraDTO.class
+dto\ReporteCarreraDTO.class
+dto\CarreraDTO.class
+repository\Estudiante_CarreraRepositoryImp.class
