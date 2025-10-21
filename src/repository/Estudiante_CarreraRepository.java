@@ -1,6 +1,5 @@
 package repository;
 
-import dto.Estudiante_CarreraDTO;
 import entity.Estudiante_Carrera;
 
 import java.util.List;
