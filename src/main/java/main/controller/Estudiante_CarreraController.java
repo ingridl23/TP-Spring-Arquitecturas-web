@@ -1,5 +1,7 @@
 package main.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import main.dto.EstudianteResponse;
 import main.dto.Estudiante_CarreraResponse;
+import main.dto.ReporteCarreraDTO;
 import main.entity.Estudiante_Carrera;
 import main.service.Estudiante_CarreraService;
 
@@ -33,8 +36,7 @@ public class Estudiante_CarreraController {
 		return ResponseEntity.ok(seleccionado);
 	}
 	
-	//TODO Ver como pasar los id y el string de manera mas linda
-	// TODO HACER MERGE CON LO DE JUAN PARA TENER EL ESTUDIANTERESPONSE
+	
 	@GetMapping("/filtrar")
     public EstudianteResponse obtenerEstudiantesPorCarreraYCiudad(
             @RequestParam Integer idCarrera,
@@ -42,6 +44,16 @@ public class Estudiante_CarreraController {
 
         return estudiantecarreraService.obtenerEstudiantesPorCarreraYCiudad(idCarrera, ciudad);
     }
+
+	@GetMapping("/reportecarreras")
+	public ResponseEntity<List<ReporteCarreraDTO>> generarReporteCarreras(){
+		List<ReporteCarreraDTO> reporteDeCarreras = estudiantecarreraService.obtenerReporteCarreras();
+		if (reporteDeCarreras.isEmpty()) {
+            return ResponseEntity.noContent().build(); 
+        }
+
+        return ResponseEntity.ok(reporteDeCarreras); 
+	}
 	
 
 	@PostMapping
