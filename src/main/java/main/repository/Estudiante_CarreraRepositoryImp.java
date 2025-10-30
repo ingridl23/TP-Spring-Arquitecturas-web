@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import main.dto.ReporteCarreraDTO;
+import main.entity.Carrera;
 import main.entity.Estudiante;
 import main.entity.Estudiante_Carrera;
 import main.util.JpaUtil;
@@ -17,14 +20,8 @@ import main.util.JpaUtil;
 @Transactional
 public class Estudiante_CarreraRepositoryImp implements Estudiante_CarreraRepository {
 
-    @PersistenceContext
+	@PersistenceContext
     private EntityManager em;
-
-    public Estudiante_CarreraRepositoryImp() {
-
-        this.em = JpaUtil.getEntityManager(); // inicialización
-
-    }
 
     @Override
     public Estudiante_Carrera seleccionarPorId(Integer id) {
@@ -74,16 +71,14 @@ public class Estudiante_CarreraRepositoryImp implements Estudiante_CarreraReposi
         }
     }
 
-    @Override
     public Estudiante_Carrera guardar(Estudiante_Carrera entity) {
         if (entity.getId() == null || !em.contains(entity)) {
-            em.persist(entity);
+            em.merge(entity);
         } else {
             em.merge(entity);
         }
         return entity;
     }
-
     @Override
     public void eliminar(Integer id) {
         try {
@@ -103,15 +98,15 @@ public class Estudiante_CarreraRepositoryImp implements Estudiante_CarreraReposi
         try {
             Query query = em.createQuery(
 
-                    "SELECT new dto.ReporteCarreraDTO(" +
+                    "SELECT new main.dto.ReporteCarreraDTO(" +
                             "c.nombre, " +
-                            "ec.anioInscripcion, " +
+                            "ec.antiguedad, " +
                             "COUNT(ec.estudiante.id), " +
-                            "SUM(CASE WHEN ec.anioEgreso IS NOT NULL THEN 1 ELSE 0 END)) " +
+                            "SUM(CASE WHEN ec.seGraduo = true THEN 1 ELSE 0 END)) " +
                             "FROM Estudiante_Carrera ec " +
                             "JOIN ec.carrera c " +
-                            "GROUP BY c.nombre, ec.anioInscripcion " +
-                            "ORDER BY c.nombre ASC, ec.anioInscripcion ASC",
+                            "GROUP BY c.nombre, ec.antiguedad " +
+                            "ORDER BY c.nombre ASC, ec.antiguedad ASC",
                     ReporteCarreraDTO.class);
 
             return query.getResultList();

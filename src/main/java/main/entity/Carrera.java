@@ -2,6 +2,8 @@ package main.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,6 +20,7 @@ public class Carrera {
 	private String nombre;
 	
 	@OneToMany(mappedBy="carrera")
+	@JsonIgnore
 	private List<Estudiante_Carrera> estudiantesInscriptos;
 
 	public Carrera(int idCarrera, String nombre, List<Estudiante_Carrera> estudiantesInscriptos) {

@@ -7,8 +7,10 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import jakarta.persistence.Column;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 @Entity
 @Table(name="estudiante")
 public class Estudiante {
@@ -28,9 +30,10 @@ public class Estudiante {
 	@Column(name="nroLibreta")
 	private Integer nroLibreta;
 	@OneToMany(mappedBy="estudiante")
+	@JsonIgnore
 	private List<Estudiante_Carrera> carrerasInscriptas = new ArrayList<>();
 	
-	public Estudiante(int nroDocumento, String nombre, String apellido, int edad, String genero, String ciudad, int nroLibreta) {
+	public Estudiante(int nroDocumento, String nombre, String apellido, Integer edad, String genero, String ciudad, Integer nroLibreta) {
 		super();
 		this.nroDocumento = nroDocumento;
 		this.nombre = nombre;
@@ -59,11 +62,11 @@ public class Estudiante {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	public int getEdad() {
-		return edad;
+	public Integer getEdad() {
+	    return edad;
 	}
-	public void setEdad(int edad) {
-		this.edad = edad;
+	public void setEdad(Integer edad) {
+	    this.edad = edad;
 	}
 	public String getGenero() {
 		return genero;
@@ -77,10 +80,10 @@ public class Estudiante {
 	public void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
 	}
-	public int getNroLibreta() {
+	public Integer getNroLibreta() {
 		return nroLibreta;
 	}
-	public void setNroLibreta(int nroLibreta) {
+	public void setNroLibreta(Integer nroLibreta) {
 		this.nroLibreta = nroLibreta;
 	}
 	public List<Estudiante_Carrera> getCarrerasInscriptas() {
